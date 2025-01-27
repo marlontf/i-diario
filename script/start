@@ -1,12 +1,16 @@
 #!/bin/bash
 
-bundle check || BUNDLE_JOBS=4 bundle install
+export RAILS_ENV=production
+
+bundle install
+
+bundle install --deployment --without development test
 
 yarn install
 
 if ! test -f ".setup"; then
   echo -e "
-  development:
+  production:
     secret_key_base: `bundle exec rails secret`
   " > config/secrets.yml
 
